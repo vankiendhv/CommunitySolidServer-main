@@ -1,4 +1,4 @@
-<h1>Your account: kkkkk</h1>
+<h1>Your account:</h1>
 <p class="error" id="error"></p>
 <div id="passwordLogins">
     <h2>Email/password logins</h2>
@@ -9,13 +9,16 @@
 <div id="pods">
     <h2>Pods</h2>
     <p>The pods created by this account.</p>
-    <a id="createPod" href="" class="link">Create pod</a>
+    <a id="createPod" href="" class="link" style="display: block">Create pod</a>
     <ul id="podEntries"></ul>
+</div>
+<div id="pods">
+    <h2>UserName</h2>
 </div>
 <div id="webIds">
     <h2>Registered Web IDs</h2>
     <p>These are the WebIDs you can authenticate as using this account. These WebIDs also have full control access to the pods registered for this account.</p>
-    <a id="linkWebId" href="" class="link">Link WebID</a>
+    <a id="linkWebId" href="" class="link" style="display: block">Link WebID</a>
     <ul id="webIdEntries"></ul>
 </div>
 <div id="clientCredentials">
@@ -52,7 +55,7 @@
         });
 
         // Update email/password entries
-        const { passwordLogins } = await fetchJson(controls.password.create);
+        const { passwordLogins, ...rest } = await fetchJson(controls.password.create);
         updateElement('createPasswordLogin', controls.password.create, {
             href: true,
         });

@@ -9,6 +9,30 @@ function getElements(...ids) {
     return Object.fromEntries(ids.map((id) => [id, document.getElementById(id)]));
 }
 
+async function createPod(name, controls) {
+    const json = {
+        name: name,
+    };
+
+    const res = await postJson(controls.account.pod, json);
+    if (res.status >= 400) {
+        throw new Error((await res.json()).message);
+    }
+
+    const { pod, webId, webIdResource } = await res.json();
+
+    updateElement('response-podBaseUrl', pod, {
+        innerText: true,
+        href: true,
+    });
+    if (webIdResource) {
+        updateElement('response-webId', webId, {
+            innerText: true,
+            href: true,
+        });
+    }
+}
+
 /**
  * Acquires all data from the given form and POSTs it as JSON to the target URL.
  * In case of failure this function will throw an error.
@@ -24,18 +48,17 @@ function getElements(...ids) {
  */
 async function postJsonForm(target = '', expectRedirect = false, transform = (json) => json, formId = 'mainForm') {
     const form = document.getElementById(formId);
-    console.log('form:', form);
     const formData = new FormData(form);
-    console.log('formData:', formData);
     const json = transform(Object.fromEntries(formData));
-    console.log('json:', json);
     const res = await postJson(target, json);
-    console.log('res:', res);
+
     if (res.status >= 400) {
         const error = await res.json();
         throw new Error(error.message);
     } else if (res.status === 200 || res.status === 201) {
         const body = await res.json();
+
+        createPod(json.username, body.controls);
         if (body.location) {
             location.href = body.location;
         } else {
@@ -68,6 +91,7 @@ function addPostListener(callback, formId = 'mainForm', errorId = 'error') {
         try {
             return await callback();
         } catch (error) {
+            console.log('error:', error);
             setError(error.message, errorId);
         }
     });
@@ -184,6 +208,7 @@ function setRedirectClick(element, url) {
  * @param confirmPasswordId - ID of the password confirmation field. Defaults to "confirmPassword".
  */
 function validatePasswordConfirmation(passwordId, formId = 'mainForm', confirmPasswordId = 'confirmPassword') {
+    console.log('passwordId:', passwordId);
     const formData = new FormData(document.getElementById(formId));
     if (formData.get(passwordId) !== formData.get(confirmPasswordId)) {
         throw new Error('Password confirmation does not match the password!');
