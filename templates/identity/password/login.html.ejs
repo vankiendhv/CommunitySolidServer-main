@@ -1,34 +1,36 @@
-<h1>Log in</h1>
-<form method="post" id="mainForm">
-    <p class="error" id="error"></p>
+<div style="display: block">
+    <h1>Log in</h1>
+    <form method="post" id="mainForm">
+        <p class="error" id="error"></p>
 
-    <fieldset>
-        <legend>Your account ssss</legend>
-        <ol>
-            <li>
-                <label for="email">Email</label>
-                <input id="email" type="email" name="email" autofocus />
-            </li>
-            <li>
-                <label for="password">Password</label>
-                <input id="password" type="password" name="password" />
-            </li>
-            <li class="checkbox">
-                <label><input type="checkbox" name="remember" value="true" checked />Stay logged in</label>
-            </li>
-        </ol>
-    </fieldset>
+        <fieldset>
+            <legend>Your account ssss</legend>
+            <ol>
+                <li>
+                    <label for="email">Email</label>
+                    <input id="email" type="email" name="email" autofocus />
+                </li>
+                <li>
+                    <label for="password">Password</label>
+                    <input id="password" type="password" name="password" />
+                </li>
+                <li class="checkbox">
+                    <label><input type="checkbox" name="remember" value="true" checked />Stay logged in</label>
+                </li>
+            </ol>
+        </fieldset>
 
-    <p class="actions">
-        <button type="submit" name="submit" disabled>Log in</button>
-        <button class="hidden" type="button" id="cancel">Cancel</button>
-    </p>
+        <p class="actions">
+            <button type="submit" name="submit" disabled>Log in</button>
+            <button class="hidden" type="button" id="cancel">Cancel</button>
+        </p>
 
-    <ul class="actions">
-        <li><a id="register-link" href="" class="link">Sign up</a></li>
-        <li><a id="forgot-link" href="" class="link">Forgot password</a></li>
-    </ul>
-</form>
+        <ul class="actions">
+            <li><a id="register-link" href="" class="link">Sign up</a></li>
+            <li><a id="forgot-link" href="" class="link">Forgot password</a></li>
+        </ul>
+    </form>
+</div>
 
 <script>
     (async () => {
@@ -49,7 +51,6 @@
                     remember: Boolean(json.remember),
                 })
             );
-            console.log('json:', json);
             // In case there was no forced OIDC redirect, just go to the main account page
             if (json) {
                 // Now with cookie

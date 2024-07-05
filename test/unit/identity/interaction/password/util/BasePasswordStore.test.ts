@@ -72,7 +72,7 @@ describe('A BasePasswordStore', (): void => {
     });
 
     it('errors when creating a second login for an email.', async (): Promise<void> => {
-        await expect(store.create(email, accountId, password)).rejects.toThrow('There already is a login for this e-mail address hhh.');
+        await expect(store.create(email, accountId, password)).rejects.toThrow('There already is a login for this e-mail address.');
         expect(storage.find).toHaveBeenCalledTimes(1);
         expect(storage.find).toHaveBeenLastCalledWith(STORAGE_TYPE, { email: lowercase });
         expect(storage.create).toHaveBeenCalledTimes(0);

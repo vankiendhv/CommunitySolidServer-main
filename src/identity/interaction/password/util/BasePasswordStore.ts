@@ -60,7 +60,7 @@ export class BasePasswordStore extends Initializer implements PasswordStore {
         this.logger.info(`BasePasswordStore  username: ${username}`);
         if (await this.findByEmail(email)) {
             this.logger.warn(`Trying to create duplicate login for email ${email}`);
-            throw new BadRequestHttpError('There already is a login for this e-mail address ok ddd ok.');
+            throw new BadRequestHttpError('There already is a login for this e-mail address.');
         }
         const payload = await this.storage.create(PASSWORD_STORAGE_TYPE, {
             accountId,
